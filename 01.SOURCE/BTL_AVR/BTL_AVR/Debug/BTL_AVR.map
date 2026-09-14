@@ -9,13 +9,26 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
  .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
+ .text          0x00000000        0x0 BSP/BSP_LCD.o
+ .data          0x00000000        0x0 BSP/BSP_LCD.o
+ .bss           0x00000000        0x0 BSP/BSP_LCD.o
  .text          0x00000000        0x0 DRIVER/LCD.o
  .data          0x00000000        0x0 DRIVER/LCD.o
  .bss           0x00000000        0x0 DRIVER/LCD.o
+ .text.LCD_DelayMs
+                0x00000000       0x3a DRIVER/LCD.o
+ .text.LCD_DelayUs
+                0x00000000       0x2e DRIVER/LCD.o
+ .text.LCD_RS_HIGH
+                0x00000000        0x2 DRIVER/LCD.o
+ .text.LCD_RS_LOW
+                0x00000000        0x2 DRIVER/LCD.o
+ .text.LCD_EN_HIGH
+                0x00000000        0x2 DRIVER/LCD.o
+ .text.LCD_EN_LOW
+                0x00000000        0x2 DRIVER/LCD.o
  .text.LCD_Home
                 0x00000000        0x8 DRIVER/LCD.o
- .text.LCD_GotoXY
-                0x00000000       0x12 DRIVER/LCD.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
@@ -68,6 +81,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
+LOAD BSP/BSP_LCD.o
 LOAD DRIVER/LCD.o
 LOAD main.o
 START GROUP
@@ -179,7 +193,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x250
+.text           0x00000000      0x2a8
  *(.vectors)
  .vectors       0x00000000       0x7c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
                 0x00000000                __vector_default
@@ -269,58 +283,67 @@ END GROUP
                 0x000000a6                __vector_20
                 0x000000aa                . = ALIGN (0x2)
  *(.text.*)
- .text.LCD_DelayUs
-                0x000000aa       0x2e DRIVER/LCD.o
-                0x000000aa                LCD_DelayUs
- .text.LCD_DelayMs
-                0x000000d8       0x36 DRIVER/LCD.o
-                0x000000d8                LCD_DelayMs
+ .text.BSP_LCD_Init
+                0x000000aa        0xc BSP/BSP_LCD.o
+                0x000000aa                BSP_LCD_Init
+ .text.LCD_WriteBus4
+                0x000000b6       0x12 BSP/BSP_LCD.o
+                0x000000b6                LCD_WriteBus4
  .text.LCD_RS_HIGH
-                0x0000010e        0x2 DRIVER/LCD.o
-                0x0000010e                LCD_RS_HIGH
+                0x000000c8        0x8 BSP/BSP_LCD.o
+                0x000000c8                LCD_RS_HIGH
  .text.LCD_RS_LOW
-                0x00000110        0x2 DRIVER/LCD.o
-                0x00000110                LCD_RS_LOW
+                0x000000d0        0x8 BSP/BSP_LCD.o
+                0x000000d0                LCD_RS_LOW
  .text.LCD_EN_HIGH
-                0x00000112        0x2 DRIVER/LCD.o
-                0x00000112                LCD_EN_HIGH
+                0x000000d8        0x8 BSP/BSP_LCD.o
+                0x000000d8                LCD_EN_HIGH
  .text.LCD_EN_LOW
-                0x00000114        0x2 DRIVER/LCD.o
-                0x00000114                LCD_EN_LOW
+                0x000000e0        0x8 BSP/BSP_LCD.o
+                0x000000e0                LCD_EN_LOW
+ .text.LCD_DelayMs
+                0x000000e8       0x30 BSP/BSP_LCD.o
+                0x000000e8                LCD_DelayMs
+ .text.LCD_DelayUs
+                0x00000118       0x2c BSP/BSP_LCD.o
+                0x00000118                LCD_DelayUs
  .text.LCD_PulseEnable
-                0x00000116       0x22 DRIVER/LCD.o
-                0x00000116                LCD_PulseEnable
+                0x00000144       0x22 DRIVER/LCD.o
+                0x00000144                LCD_PulseEnable
  .text.LCD_Write4Bits
-                0x00000138        0xc DRIVER/LCD.o
-                0x00000138                LCD_Write4Bits
+                0x00000166        0xc DRIVER/LCD.o
+                0x00000166                LCD_Write4Bits
  .text.LCD_Send
-                0x00000144       0x44 DRIVER/LCD.o
-                0x00000144                LCD_Send
+                0x00000172       0x44 DRIVER/LCD.o
+                0x00000172                LCD_Send
  .text.LCD_SendCommand
-                0x00000188        0x8 DRIVER/LCD.o
-                0x00000188                LCD_SendCommand
+                0x000001b6        0x8 DRIVER/LCD.o
+                0x000001b6                LCD_SendCommand
  .text.LCD_SendData
-                0x00000190        0x8 DRIVER/LCD.o
-                0x00000190                LCD_SendData
+                0x000001be        0x8 DRIVER/LCD.o
+                0x000001be                LCD_SendData
  .text.LCD_Clear
-                0x00000198        0x8 DRIVER/LCD.o
-                0x00000198                LCD_Clear
+                0x000001c6        0x8 DRIVER/LCD.o
+                0x000001c6                LCD_Clear
  .text.LCD_Init
-                0x000001a0       0x7a DRIVER/LCD.o
-                0x000001a0                LCD_Init
+                0x000001ce       0x7a DRIVER/LCD.o
+                0x000001ce                LCD_Init
  .text.LCD_PutChar
-                0x0000021a        0x6 DRIVER/LCD.o
-                0x0000021a                LCD_PutChar
+                0x00000248        0x6 DRIVER/LCD.o
+                0x00000248                LCD_PutChar
  .text.LCD_PutString
-                0x00000220       0x1e DRIVER/LCD.o
-                0x00000220                LCD_PutString
- .text.main     0x0000023e        0xe main.o
-                0x0000023e                main
-                0x0000024c                . = ALIGN (0x2)
+                0x0000024e       0x1e DRIVER/LCD.o
+                0x0000024e                LCD_PutString
+ .text.LCD_GotoXY
+                0x0000026c       0x12 DRIVER/LCD.o
+                0x0000026c                LCD_GotoXY
+ .text.main     0x0000027e       0x26 main.o
+                0x0000027e                main
+                0x000002a4                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000024c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x0000024c                _exit
-                0x0000024c                exit
+ .fini9         0x000002a4        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x000002a4                _exit
+                0x000002a4                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -339,11 +362,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000024c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x000002a4        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000250                _etext = .
+                0x000002a8                _etext = .
 
-.data           0x00800100        0x6 load address 0x00000250
+.data           0x00800100       0x14 load address 0x000002a8
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -351,27 +374,27 @@ END GROUP
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800100        0x5 main.o
+                0x00800100       0x13 main.o
  *(.gnu.linkonce.r*)
-                0x00800106                . = ALIGN (0x2)
- *fill*         0x00800105        0x1 
-                0x00800106                _edata = .
-                0x00800106                PROVIDE (__data_end, .)
+                0x00800114                . = ALIGN (0x2)
+ *fill*         0x00800113        0x1 
+                0x00800114                _edata = .
+                0x00800114                PROVIDE (__data_end, .)
 
-.bss            0x00800106        0x0
+.bss            0x00800114        0x0
                 [!provide]                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x00000250                __data_load_start = LOADADDR (.data)
-                0x00000256                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000002a8                __data_load_start = LOADADDR (.data)
+                0x000002bc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800106        0x0
+.noinit         0x00800114        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800106                _end = .
+                0x00800114                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -413,8 +436,9 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 DRIVER/LCD.o
+ .comment       0x00000000       0x30 BSP/BSP_LCD.o
                                  0x31 (size before relaxing)
+ .comment       0x00000030       0x31 DRIVER/LCD.o
  .comment       0x00000030       0x31 main.o
 
 .note.gnu.avr.deviceinfo
@@ -437,50 +461,59 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xc0
+.debug_aranges  0x00000000      0x118
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0xa0 DRIVER/LCD.o
+                0x00000000       0x58 BSP/BSP_LCD.o
  .debug_aranges
-                0x000000a0       0x20 main.o
+                0x00000058       0xa0 DRIVER/LCD.o
+ .debug_aranges
+                0x000000f8       0x20 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xd46
+.debug_info     0x00000000      0xffc
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x6cc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
- .debug_info    0x000006cc      0x5bd DRIVER/LCD.o
- .debug_info    0x00000c89       0xbd main.o
+ .debug_info    0x000006cc      0x263 BSP/BSP_LCD.o
+ .debug_info    0x0000092f      0x5b7 DRIVER/LCD.o
+ .debug_info    0x00000ee6      0x116 main.o
 
-.debug_abbrev   0x00000000      0x82d
+.debug_abbrev   0x00000000      0x957
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x66e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
- .debug_abbrev  0x0000066e      0x140 DRIVER/LCD.o
- .debug_abbrev  0x000007ae       0x7f main.o
+ .debug_abbrev  0x0000066e      0x144 BSP/BSP_LCD.o
+ .debug_abbrev  0x000007b2      0x119 DRIVER/LCD.o
+ .debug_abbrev  0x000008cb       0x8c main.o
 
-.debug_line     0x00000000      0x4a5
+.debug_line     0x00000000      0x6c0
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x152 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
- .debug_line    0x00000152      0x2fb DRIVER/LCD.o
- .debug_line    0x0000044d       0x58 main.o
+ .debug_line    0x00000152      0x1ef BSP/BSP_LCD.o
+ .debug_line    0x00000341      0x303 DRIVER/LCD.o
+ .debug_line    0x00000644       0x7c main.o
 
-.debug_frame    0x00000000      0x180
+.debug_frame    0x00000000      0x22c
  *(.debug_frame)
- .debug_frame   0x00000000      0x15c DRIVER/LCD.o
- .debug_frame   0x0000015c       0x24 main.o
+ .debug_frame   0x00000000       0xac BSP/BSP_LCD.o
+ .debug_frame   0x000000ac      0x15c DRIVER/LCD.o
+ .debug_frame   0x00000208       0x24 main.o
 
-.debug_str      0x00000000      0x4b1
+.debug_str      0x00000000      0x525
  *(.debug_str)
  .debug_str     0x00000000      0x255 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
- .debug_str     0x00000255      0x24b DRIVER/LCD.o
-                                0x284 (size before relaxing)
- .debug_str     0x000004a0       0x11 main.o
-                                0x19c (size before relaxing)
+ .debug_str     0x00000255      0x21b BSP/BSP_LCD.o
+                                0x258 (size before relaxing)
+ .debug_str     0x00000470       0xa4 DRIVER/LCD.o
+                                0x292 (size before relaxing)
+ .debug_str     0x00000514       0x11 main.o
+                                0x1ab (size before relaxing)
 
-.debug_loc      0x00000000      0x35d
+.debug_loc      0x00000000      0x540
  *(.debug_loc)
- .debug_loc     0x00000000      0x35d DRIVER/LCD.o
+ .debug_loc     0x00000000      0x1e3 BSP/BSP_LCD.o
+ .debug_loc     0x000001e3      0x35d DRIVER/LCD.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -500,10 +533,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xb8
+.debug_ranges   0x00000000      0x100
  *(.debug_ranges)
- .debug_ranges  0x00000000       0xa8 DRIVER/LCD.o
- .debug_ranges  0x000000a8       0x10 main.o
+ .debug_ranges  0x00000000       0x48 BSP/BSP_LCD.o
+ .debug_ranges  0x00000048       0xa8 DRIVER/LCD.o
+ .debug_ranges  0x000000f0       0x10 main.o
 
 .debug_macro
  *(.debug_macro)
