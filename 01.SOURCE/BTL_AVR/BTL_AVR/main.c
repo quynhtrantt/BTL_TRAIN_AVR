@@ -14,6 +14,9 @@
 #define LCD_EN_HIGH() (LCD_PORT |= (1 << LCD_EN_PIN))
 #define LCD_EN_LOW()  (LCD_PORT &= ~(1 << LCD_EN_PIN))
 
+#define LCD_DelayMs(x) _delay_ms(x)
+#define LCD_DelayUs(x) _delay_us(x)
+
 int main(void)
 {
 	LCD_Init();
