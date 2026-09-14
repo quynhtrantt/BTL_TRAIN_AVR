@@ -8,9 +8,13 @@ void LCD_Home(void);
 
 void LCD_SendCommand(uint8_t cmd);
 void LCD_SendData(uint8_t data);
-
 void LCD_PutChar(char c);
 void LCD_PutString(const char *s);
 void LCD_GotoXY(uint8_t col, uint8_t row);
+void LCD_Write4Bits(uint8_t nibble);
+
+void LCD_PulseEnable(void);
+void LCD_Write4Bits(uint8_t nibble);
+void LCD_Send(uint8_t value, uint8_t isData);
 
 #endif

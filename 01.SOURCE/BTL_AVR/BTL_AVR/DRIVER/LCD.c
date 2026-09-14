@@ -1,25 +1,51 @@
 #include "LCD.h"
 #include "stdint.h"
 
-static void LCD_PulseEnable(void);
-static void LCD_Write4Bits(uint8_t nibble);
-static void LCD_Send(uint8_t value, uint8_t isData);
+#ifndef LCD_WEAK
 
-static void LCD_PulseEnable(void)
+#if defined(__GNUC__)
+#define LCD_WEAK __attribute__((weak))
+#elif defined(__ICCARM__) || defined(__CC_ARM) || defined(__ARMCC_VERSION)
+#define LCD_WEAK __weak
+#else
+#define LCD_WEAK
+#warning "Weak attribute not supported on this compiler, overriding may not work as expected"
+#endif
+#endif
+
+LCD_WEAK void LCD_DelayMs(uint32_t ms)
 {
-    LCD_EN_HIGH();
+	while (ms--) {
+		LCD_DelayUs(1000);
+	}
+}
+
+LCD_WEAK void LCD_DelayUs(uint32_t us)
+{
+	while (us--) {
+		for (uint8_t i = 100; i>0; i--);
+	}
+}
+
+LCD_WEAK void LCD_RS_HIGH(void) { (void)0; }
+LCD_WEAK void LCD_RS_LOW(void)  { (void)0; }
+LCD_WEAK void LCD_EN_HIGH(void) { (void)0; }
+LCD_WEAK void LCD_EN_LOW(void)  { (void)0; }
+void LCD_PulseEnable(void)
+{
+    LCD_EN_HIGH();	
     LCD_DelayUs(1);      
     LCD_EN_LOW();
     LCD_DelayUs(50);     
 }
 
-static void LCD_Write4Bits(uint8_t nibble)
+void LCD_Write4Bits(uint8_t nibble)
 {
-	LCD_WriteBus4(nibble & 0x0F);   
+	LCD_Write4Bits(nibble & 0x0F);   
 	LCD_PulseEnable();
 }
 
-static void LCD_Send(uint8_t value, uint8_t isData)
+void LCD_Send(uint8_t value, uint8_t isData)
 {
     if (isData) {
         LCD_RS_HIGH();
@@ -100,7 +126,7 @@ void LCD_Clear(void)
 /* ??a con tr? v? v? trí home (0,0) */
 void LCD_Home(void)
 {
-    LCD_SendCommand(0x02u);   /* Return home */
+     LCD_SendCommand(0x02u);   /* Return home */
 }
 
 /* Ghi 1 ký t? lên v? trí hi?n t?i c?a con tr? */
