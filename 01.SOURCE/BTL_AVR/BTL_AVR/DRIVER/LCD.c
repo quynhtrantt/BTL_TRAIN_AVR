@@ -1,22 +1,15 @@
+#define F_CPU 8000000UL
 #include "LCD.h"
 #include "stdint.h"
 
 #ifndef LCD_WEAK
-
-#if defined(__GNUC__)
 #define LCD_WEAK __attribute__((weak))
-#elif defined(__ICCARM__) || defined(__CC_ARM) || defined(__ARMCC_VERSION)
-#define LCD_WEAK __weak
-#else
-#define LCD_WEAK
-#warning "Weak attribute not supported on this compiler, overriding may not work as expected"
-#endif
 #endif
 
 LCD_WEAK void LCD_DelayMs(uint32_t ms)
 {
 	while (ms--) {
-		LCD_DelayUs(1000);
+		LCD_DelayMs(1000);
 	}
 }
 
@@ -31,6 +24,7 @@ LCD_WEAK void LCD_RS_HIGH(void) { (void)0; }
 LCD_WEAK void LCD_RS_LOW(void)  { (void)0; }
 LCD_WEAK void LCD_EN_HIGH(void) { (void)0; }
 LCD_WEAK void LCD_EN_LOW(void)  { (void)0; }
+	
 void LCD_PulseEnable(void)
 {
     LCD_EN_HIGH();	
@@ -41,7 +35,7 @@ void LCD_PulseEnable(void)
 
 void LCD_Write4Bits(uint8_t nibble)
 {
-	LCD_Write4Bits(nibble & 0x0F);   
+	LCD_WriteBus4(nibble & 0x0F);
 	LCD_PulseEnable();
 }
 
