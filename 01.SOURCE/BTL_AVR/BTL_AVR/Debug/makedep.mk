@@ -4,6 +4,8 @@
 
 BSP\BSP_LCD.c
 
+DRIVER\GPIO.c
+
 DRIVER\LCD.c
 
 main.c
