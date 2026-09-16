@@ -40,6 +40,7 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../BSP/BSP_LCD.c \
+../BSP/BSP_LED.c \
 ../DRIVER/GPIO.c \
 ../DRIVER/LCD.c \
 ../main.c
@@ -53,24 +54,28 @@ ASM_SRCS +=
 
 OBJS +=  \
 BSP/BSP_LCD.o \
+BSP/BSP_LED.o \
 DRIVER/GPIO.o \
 DRIVER/LCD.o \
 main.o
 
 OBJS_AS_ARGS +=  \
 BSP/BSP_LCD.o \
+BSP/BSP_LED.o \
 DRIVER/GPIO.o \
 DRIVER/LCD.o \
 main.o
 
 C_DEPS +=  \
 BSP/BSP_LCD.d \
+BSP/BSP_LED.d \
 DRIVER/GPIO.d \
 DRIVER/LCD.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
 BSP/BSP_LCD.d \
+BSP/BSP_LED.d \
 DRIVER/GPIO.d \
 DRIVER/LCD.d \
 main.d
@@ -90,6 +95,13 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 BSP/BSP_LCD.o: ../BSP/BSP_LCD.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../DRIVER" -I"../BSP"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega324p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega324p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+BSP/BSP_LED.o: ../BSP/BSP_LED.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../DRIVER" -I"../BSP"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega324p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega324p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
