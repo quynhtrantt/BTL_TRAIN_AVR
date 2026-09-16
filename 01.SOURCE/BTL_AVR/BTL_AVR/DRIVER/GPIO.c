@@ -1,7 +1,7 @@
 #include "gpio.h"
-#include "common_macros.h" 
-#include "avr/io.h" 
 #include "stdint.h"
+
+
 void GPIO_setupPinDirection(uint8_t port_num, uint8_t pin_num, GPIO_PinDirectionType direction)
 {
 	
@@ -117,19 +117,12 @@ void GPIO_writePin(uint8_t port_num, uint8_t pin_num, uint8_t value)
 uint8_t GPIO_readPin(uint8_t port_num, uint8_t pin_num)
 {
 	uint8_t pin_value = LOGIC_LOW;
-
-	/*
-	 * Check if the input port number is greater than NUM_OF_PINS_PER_PORT value.
-	 * Or if the input pin number is greater than NUM_OF_PINS_PER_PORT value.
-	 * In this case the input is not valid port/pin number
-	 */
 	if((pin_num >= NUM_OF_PINS_PER_PORT) || (port_num >= NUM_OF_PORTS))
 	{
-		/* Do Nothing */
+	
 	}
 	else
 	{
-		/* Read the pin value as required */
 		switch(port_num)
 		{
 		case PORTA_ID:
