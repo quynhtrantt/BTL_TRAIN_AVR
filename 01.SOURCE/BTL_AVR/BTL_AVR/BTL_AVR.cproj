@@ -122,6 +122,15 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="APP\APP_DISPLAY\app_display.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="APP\APP_DISPLAY\app_display.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="APP\APP_DISPLAY\test_display.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="BSP\BSP_LCD.c">
       <SubType>compile</SubType>
     </Compile>
@@ -151,8 +160,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="APP\APP_DISPLAY" />
     <Folder Include="DRIVER" />
     <Folder Include="BSP" />
+    <Folder Include="APP" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
