@@ -138,24 +138,21 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
     <Compile Include="APP\APP_DHT.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="APP\APP_DHT.h">
       <SubType>compile</SubType>
     </Compile>
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
     <Compile Include="APP\APP_DISPLAY\app_display.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="APP\APP_DISPLAY\app_display.h">
       <SubType>compile</SubType>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="APP\APP_DISPLAY\test_display.c">
-=======
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="BSP\BOARD.h">
       <SubType>compile</SubType>
     </Compile>
@@ -163,7 +160,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BSP\BSP_DHT.h">
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BSP\BSP_LCD.c">
@@ -207,16 +203,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Folder Include="APP\APP_DISPLAY" />
-=======
     <Folder Include="APP\" />
     <Folder Include="APP\APP_DISPLAY\" />
     <Folder Include="DATA\" />
     <Folder Include="Debug\" />
     <Folder Include="Debug\BSP\" />
     <Folder Include="Debug\DRIVER\" />
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
     <Folder Include="DRIVER" />
     <Folder Include="BSP" />
     <Folder Include="APP" />
