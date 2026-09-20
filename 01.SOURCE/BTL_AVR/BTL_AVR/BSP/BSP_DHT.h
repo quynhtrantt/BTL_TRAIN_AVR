@@ -21,6 +21,9 @@
 void BSP_DHT_Init(void);
 
 uint8_t BSP_DHT_Read(uint8_t *humidity,
-                     uint8_t *temperature);
+                      uint8_t *temperature);
+
+uint8_t DHT_SendStart(void);
+uint8_t DHT_CheckResponse(void);
 
 #endif /* BSP_DHT_H_ */
