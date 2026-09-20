@@ -2,9 +2,9 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-APP\APP_LCD_3.c
+APP\APP_DISPLAY\test_display.c
 
-APP\TEST_LCD_3\test_lcd_3.c
+APP\APP_LCD_3.c
 
 APP_BUTTON\APP_BUTTON.c
 
@@ -15,8 +15,6 @@ BSP\BSP_BUTTON.c
 APP\APP_DHT.c
 
 APP\APP_DISPLAY\app_display.c
-
-APP\APP_DISPLAY\test_display.c
 
 BSP\BSP_DHT.c
 

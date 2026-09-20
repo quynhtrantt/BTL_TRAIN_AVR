@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include "bsp_button.h"
 typedef enum {S_BUTTON_PRESSED, S_BUTTON_PRESSED_CHECK, S_BUTTON_RELEASED, S_BUTTON_RELEASED_CHECK} button_state_t;
+typedef enum {S_PAGE_RELEASED,S_PAGE_PRESSED_CHECK,S_PAGE_PRESSED,S_PAGE_RELEASED_CHECK} page_button_state_t;
+
+static page_button_state_t page_state = S_PAGE_RELEASED;
 
 static button_state_t state = S_BUTTON_RELEASED;
 
@@ -71,4 +74,67 @@ uint8_t app_button_get_state()
 		return BUTTON_RELEASED;
 	}
 	
+}
+
+void app_button_page_update(void)
+{
+	switch (page_state)
+	{
+		case S_PAGE_RELEASED:
+
+		if (BUTTON_PRESSED == bsp_button_page_get_state())
+		{
+			page_state = S_PAGE_PRESSED_CHECK;
+		}
+
+		break;
+
+
+		case S_PAGE_PRESSED_CHECK:
+
+		if (BUTTON_RELEASED == bsp_button_page_get_state())
+		{
+			page_state = S_PAGE_RELEASED;
+		}
+		else
+		{
+			page_state = S_PAGE_PRESSED;
+		}
+
+		break;
+
+
+		case S_PAGE_PRESSED:
+
+		if (BUTTON_RELEASED == bsp_button_page_get_state())
+		{
+			page_state = S_PAGE_RELEASED_CHECK;
+		}
+
+		break;
+
+
+		case S_PAGE_RELEASED_CHECK:
+
+		page_state = S_PAGE_RELEASED;
+
+		break;
+
+
+		default:
+
+		page_state = S_PAGE_RELEASED;
+
+		break;
+	}
+}
+
+uint8_t app_button_page_get_state(void)
+{
+	if (page_state == S_PAGE_PRESSED)
+	{
+		return BUTTON_PRESSED;
+	}
+
+	return BUTTON_RELEASED;
 }

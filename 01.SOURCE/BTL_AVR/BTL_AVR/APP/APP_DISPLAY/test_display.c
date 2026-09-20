@@ -2,7 +2,11 @@
 #include "BSP_LCD.h"
 #include "app_display.h"
 #include "DATA_DHT.h"
+#include "APP_DHT.h"
 #include "util/delay.h"
+#include "BSP_BUTTON.h"
+#include "APP_BUTTON.h"
+
 
 #ifndef F_CPU
 #define F_CPU 8000000UL
@@ -13,26 +17,19 @@
 int main(void)
 {
 	App_Display_Init();
+	
 
 	while (1)
 	{
-			DDRD &= ~(1 << PB1);
-			PORTB |= (1 << PB1);
-		uint8_t current_temp = data_dht_get_temperature();
-		uint8_t current_humi = data_dht_get_humidity();
 		
-		App_Display_SetTemperature(current_temp);
-		App_Display_SetHumidity(current_humi);
+		App_Display_SetTemperature(data_dht_get_temperature());
+		App_Display_SetHumidity(data_dht_get_humidity());
 		
-	if ((PINB & (1 << PB1)) == 0)
-	{
-		_delay_ms(20); 
-		if ((PINB & (1 << PB1)) == 0) 
+		if (bsp_button_start_get_state() == BUTTON_PRESSED)
 		{
-			App_Display_NextPage(); 
-			
+			 App_Display_NextPage();
+			while (bsp_button_start_get_state() == BUTTON_PRESSED);
 		}
-	}
 
 	}
 	return 0;

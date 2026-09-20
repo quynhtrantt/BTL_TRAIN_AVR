@@ -48,14 +48,13 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../APP/APP_DISPLAY/test_display.c \
 ../APP/APP_LCD_3.c \
-../APP/TEST_LCD_3/test_lcd_3.c \
 ../APP_BUTTON/APP_BUTTON.c \
 ../APP_BUTTON/DATA_BUTTON.c \
 ../BSP/BSP_BUTTON.c \
 ../APP/APP_DHT.c \
 ../APP/APP_DISPLAY/app_display.c \
-../APP/APP_DISPLAY/test_display.c \
 ../BSP/BSP_DHT.c \
 ../BSP/BSP_LCD.c \
 ../BSP/BSP_LED.c \
@@ -72,14 +71,13 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+APP/APP_DISPLAY/test_display.o \
 APP/APP_LCD_3.o \
-APP/TEST_LCD_3/test_lcd_3.o \
 APP_BUTTON/APP_BUTTON.o \
 APP_BUTTON/DATA_BUTTON.o \
 BSP/BSP_BUTTON.o \
 APP/APP_DHT.o \
 APP/APP_DISPLAY/app_display.o \
-APP/APP_DISPLAY/test_display.o \
 BSP/BSP_DHT.o \
 BSP/BSP_LCD.o \
 BSP/BSP_LED.o \
@@ -89,14 +87,13 @@ DRIVER/GPIO.o \
 DRIVER/LCD.o
 
 OBJS_AS_ARGS +=  \
+APP/APP_DISPLAY/test_display.o \
 APP/APP_LCD_3.o \
-APP/TEST_LCD_3/test_lcd_3.o \
 APP_BUTTON/APP_BUTTON.o \
 APP_BUTTON/DATA_BUTTON.o \
 BSP/BSP_BUTTON.o \
 APP/APP_DHT.o \
 APP/APP_DISPLAY/app_display.o \
-APP/APP_DISPLAY/test_display.o \
 BSP/BSP_DHT.o \
 BSP/BSP_LCD.o \
 BSP/BSP_LED.o \
@@ -106,14 +103,13 @@ DRIVER/GPIO.o \
 DRIVER/LCD.o
 
 C_DEPS +=  \
+APP/APP_DISPLAY/test_display.d \
 APP/APP_LCD_3.d \
-APP/TEST_LCD_3/test_lcd_3.d \
 APP_BUTTON/APP_BUTTON.d \
 APP_BUTTON/DATA_BUTTON.d \
 BSP/BSP_BUTTON.d \
 APP/APP_DHT.d \
 APP/APP_DISPLAY/app_display.d \
-APP/APP_DISPLAY/test_display.d \
 BSP/BSP_DHT.d \
 BSP/BSP_LCD.d \
 BSP/BSP_LED.d \
@@ -123,14 +119,13 @@ DRIVER/GPIO.d \
 DRIVER/LCD.d
 
 C_DEPS_AS_ARGS +=  \
+APP/APP_DISPLAY/test_display.d \
 APP/APP_LCD_3.d \
-APP/TEST_LCD_3/test_lcd_3.d \
 APP_BUTTON/APP_BUTTON.d \
 APP_BUTTON/DATA_BUTTON.d \
 BSP/BSP_BUTTON.d \
 APP/APP_DHT.d \
 APP/APP_DISPLAY/app_display.d \
-APP/APP_DISPLAY/test_display.d \
 BSP/BSP_DHT.d \
 BSP/BSP_LCD.d \
 BSP/BSP_LED.d \
@@ -153,14 +148,14 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-APP/APP_LCD_3.o: ../APP/APP_LCD_3.c
+APP/APP_DISPLAY/test_display.o: ../APP/APP_DISPLAY/test_display.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../DRIVER" -I"../BSP" -I"../APP_BUTTON" -I"../APP" -I"../APP/APP_DISPLAY" -I"../DATA"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega324p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega324p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
-APP/TEST_LCD_3/test_lcd_3.o: ../APP/TEST_LCD_3/test_lcd_3.c
+APP/APP_LCD_3.o: ../APP/APP_LCD_3.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../DRIVER" -I"../BSP" -I"../APP_BUTTON" -I"../APP" -I"../APP/APP_DISPLAY" -I"../DATA"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega324p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega324p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -196,13 +191,6 @@ APP/APP_DHT.o: ../APP/APP_DHT.c
 	
 
 APP/APP_DISPLAY/app_display.o: ../APP/APP_DISPLAY/app_display.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../DRIVER" -I"../BSP" -I"../APP_BUTTON" -I"../APP" -I"../APP/APP_DISPLAY" -I"../DATA"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega324p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega324p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-APP/APP_DISPLAY/test_display.o: ../APP/APP_DISPLAY/test_display.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../DRIVER" -I"../BSP" -I"../APP_BUTTON" -I"../APP" -I"../APP/APP_DISPLAY" -I"../DATA"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega324p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega324p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

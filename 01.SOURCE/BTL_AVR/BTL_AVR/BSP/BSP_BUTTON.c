@@ -4,14 +4,14 @@
  * Created: 9/16/2026 4:07:26 PM
  *  Author: HP
  */ 
-#include "bsp_button.h"
+#include "BSP_BUTTON.h"
 #include "DATA_BUTTON.h"
 #include <avr/io.h>
 #include "common_macros.h"
 
 uint8_t bsp_button_start_get_state(void){
 	/* PC0 ?ang d�ng l�m input cho n�t nh?n */
-	if (((PINC & (1 << PC0)) == 0) || ((PINC & (1 << PC1)) == 0))
+	if (((PINC & (1 << PC0)) == 0) || ((PINC & (1 << PC1)) == 0)) 
 	{
 		/* ??c ???c m?c 0 ? n�t ?ang ???c nh?n */
 		return BUTTON_PRESSED;

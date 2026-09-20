@@ -139,16 +139,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="APP\APP_DISPLAY\test_display.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="APP\APP_LCD_3.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="APP\APP_LCD_3.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="APP\TEST_LCD_3\test_lcd_3.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="APP\TEST_LCD_3\test_lcd_3.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="APP_BUTTON\APP_BUTTON.c">
@@ -181,9 +178,6 @@
     <Compile Include="APP\APP_DISPLAY\app_display.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="APP\APP_DISPLAY\test_display.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="BSP\BOARD.h">
       <SubType>compile</SubType>
     </Compile>
@@ -209,6 +203,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BSP\BSP_TIMER.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="BSP\common_macros.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="DATA\DATA_DHT.c">
@@ -257,24 +254,6 @@
       <SubType>compile</SubType>
     </None>
     <None Include="Debug\BSP\BSP_LED.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BTL_AVR.eep">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BTL_AVR.elf">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BTL_AVR.hex">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BTL_AVR.lss">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BTL_AVR.map">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BTL_AVR.srec">
       <SubType>compile</SubType>
     </None>
     <None Include="Debug\DRIVER\GPIO.d">

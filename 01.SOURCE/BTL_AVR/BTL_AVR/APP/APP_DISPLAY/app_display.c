@@ -2,13 +2,16 @@
 #include "BSP_LCD.h"
 #include "stdint.h"
 #include "stdio.h"
+#include "BSP_TIMER.h"
+#include "APP_LCD_3.h"
+#include "APP_BUTTON.h"
 
 
 static uint8_t current_page = PAGE_TEMPERATURE;
 static uint8_t temperature = TEMPERATURE;
 static uint8_t humidity = PAGE_HUMIDITY;
 static uint16_t press_count = PAGE_COUNT;
-
+extern uint8_t set_temp ;
 void App_Display_Init(void)
 {
 	BSP_LCD_Init();
@@ -45,9 +48,9 @@ void App_Display_ShowPage(uint8_t page)
 
 		case PAGE_COUNT:
 		LCD_GotoXY(0U, 0U);
-		LCD_PutString("   BUTTON COUNT");
+		LCD_PutString("  SET TEMP ");
 
-		sprintf(buffer, "      %u", press_count);
+		sprintf(buffer, "      %u", set_temp);
 		LCD_GotoXY(0U, 1U);
 		LCD_PutString(buffer);
 		break;

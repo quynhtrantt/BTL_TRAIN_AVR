@@ -1,4 +1,5 @@
-BSP/BSP_TIMER.d BSP/BSP_TIMER.o: ../BSP/BSP_TIMER.c ../BSP/bsp_timer.h \
+BSP/BSP_TIMER.d BSP/BSP_TIMER.o: ../BSP/BSP_TIMER.c ../BSP/BOARD.h \
+ ../BSP/BSP_TIMER.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
@@ -12,7 +13,9 @@ BSP/BSP_TIMER.d BSP/BSP_TIMER.o: ../BSP/BSP_TIMER.c ../BSP/bsp_timer.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
-../BSP/bsp_timer.h:
+../BSP/BOARD.h:
+
+../BSP/BSP_TIMER.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
 
