@@ -1,33 +1,39 @@
 #include "avr/io.h"
 #include "BSP_LCD.h"
-#include "bsp_button.h"
 #include "app_display.h"
+#include "DATA_DHT.h"
+#include "util/delay.h"
+
+#ifndef F_CPU
+#define F_CPU 8000000UL
+#endif
 
 #define BUTTON_PAGE_ID  0
-#define BUTTON_COUNT_ID 1
 
 int main(void)
 {
-	BSP_LCD_Init();
-	BSP_Button_Init();
 	App_Display_Init();
-	
-	uint16_t my_count = 0; 
 
 	while (1)
 	{
-		if (BSP_Button_IsPressed(BUTTON_PAGE_ID))
+			DDRD &= ~(1 << PB1);
+			PORTB |= (1 << PB1);
+		uint8_t current_temp = data_dht_get_temperature();
+		uint8_t current_humi = data_dht_get_humidity();
+		
+		App_Display_SetTemperature(current_temp);
+		App_Display_SetHumidity(current_humi);
+		
+	if ((PINB & (1 << PB1)) == 0)
+	{
+		_delay_ms(20); 
+		if ((PINB & (1 << PB1)) == 0) 
 		{
-			App_Display_NextPage();
-		}
-
-		if (BSP_Button_IsPressed(BUTTON_COUNT_ID))
-		{
-			my_count++;
-
-			App_Display_SetCount(my_count);
+			App_Display_NextPage(); 
+			
 		}
 	}
-	
+
+	}
 	return 0;
 }

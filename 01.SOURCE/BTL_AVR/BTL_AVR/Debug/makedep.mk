@@ -6,6 +6,8 @@ APP\APP_DHT.c
 
 APP\APP_DISPLAY\app_display.c
 
+APP\APP_DISPLAY\test_display.c
+
 BSP\BSP_DHT.c
 
 BSP\BSP_LCD.c
@@ -19,6 +21,4 @@ DATA\DATA_DHT.c
 DRIVER\GPIO.c
 
 DRIVER\LCD.c
-
-main.c
 

@@ -2,12 +2,12 @@
 #include "BSP_LCD.h"
 #include "stdint.h"
 #include "stdio.h"
-#include "button_data.h"
+
 
 static uint8_t current_page = PAGE_TEMPERATURE;
 static uint8_t temperature = TEMPERATURE;
-static uint8_t humidity = HUMIDITY;
-static uint16_t press_count = COUNT_BUTTON;
+static uint8_t humidity = PAGE_HUMIDITY;
+static uint16_t press_count = PAGE_COUNT;
 
 void App_Display_Init(void)
 {
