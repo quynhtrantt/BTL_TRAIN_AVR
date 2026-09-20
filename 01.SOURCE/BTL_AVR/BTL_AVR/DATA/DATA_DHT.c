@@ -5,6 +5,7 @@
  *  Author: HP
  */ 
 #include "DATA_DHT.h"
+#include "BOARD.h"
 
 static uint8_t temperature = 0;
 static uint8_t humidity = 0;
