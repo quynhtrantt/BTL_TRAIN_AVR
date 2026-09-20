@@ -76,65 +76,69 @@ uint8_t app_button_get_state()
 	
 }
 
+
 void app_button_page_update(void)
 {
-	switch (page_state)
-	{
-		case S_PAGE_RELEASED:
+    switch (page_state)
+    {
+        case S_PAGE_RELEASED:
 
-		if (BUTTON_PRESSED == bsp_button_page_get_state())
-		{
-			page_state = S_PAGE_PRESSED_CHECK;
-		}
+            if (BUTTON_PRESSED == bsp_button_page_get_state())
+            {
+                page_state = S_PAGE_PRESSED_CHECK;
+                app_button_timer_count = 2000;
+            }
 
-		break;
-
-
-		case S_PAGE_PRESSED_CHECK:
-
-		if (BUTTON_RELEASED == bsp_button_page_get_state())
-		{
-			page_state = S_PAGE_RELEASED;
-		}
-		else
-		{
-			page_state = S_PAGE_PRESSED;
-		}
-
-		break;
+            break;
 
 
-		case S_PAGE_PRESSED:
+        case S_PAGE_PRESSED_CHECK:
 
-		if (BUTTON_RELEASED == bsp_button_page_get_state())
-		{
-			page_state = S_PAGE_RELEASED_CHECK;
-		}
+            if (BUTTON_RELEASED == bsp_button_page_get_state())
+            {
+                page_state = S_PAGE_RELEASED;
+                app_button_timer_count = 0;
+            }
+            else if (app_button_timer_count == 0)
+            {
+                page_state = S_PAGE_PRESSED;
+            }
 
-		break;
-
-
-		case S_PAGE_RELEASED_CHECK:
-
-		page_state = S_PAGE_RELEASED;
-
-		break;
+            break;
 
 
-		default:
+        case S_PAGE_PRESSED:
 
-		page_state = S_PAGE_RELEASED;
+            page_state = S_PAGE_RELEASED_CHECK;
 
-		break;
-	}
+            break;
+
+
+        case S_PAGE_RELEASED_CHECK:
+
+            if (BUTTON_RELEASED == bsp_button_page_get_state())
+            {
+                page_state = S_PAGE_RELEASED;
+            }
+
+            break;
+
+
+        default:
+
+            page_state = S_PAGE_RELEASED;
+            break;
+    }
 }
 
 uint8_t app_button_page_get_state(void)
 {
-	if (page_state == S_PAGE_PRESSED)
-	{
-		return BUTTON_PRESSED;
-	}
+    switch (page_state)
+    {
+        case S_PAGE_PRESSED:
+            return BUTTON_PRESSED;
 
-	return BUTTON_RELEASED;
+        default:
+            return BUTTON_RELEASED;
+    }
 }

@@ -18,3 +18,4 @@ uint8_t data_button_get_state(void)
 {
 	return button_state;
 }
+

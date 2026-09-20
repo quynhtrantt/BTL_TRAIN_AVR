@@ -12,6 +12,7 @@ static uint8_t temperature = TEMPERATURE;
 static uint8_t humidity = PAGE_HUMIDITY;
 static uint16_t press_count = PAGE_COUNT;
 extern uint8_t set_temp ;
+
 void App_Display_Init(void)
 {
 	BSP_LCD_Init();

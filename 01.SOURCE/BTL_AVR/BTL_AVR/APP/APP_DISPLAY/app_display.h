@@ -4,9 +4,9 @@
 #include "DATA_DHT.h"
 
 #define PAGE_TEMPERATURE 0
-#define TEMPERATURE 1
-#define PAGE_HUMIDITY 2
-#define PAGE_COUNT 3
+#define TEMPERATURE 3
+#define PAGE_HUMIDITY 1
+#define PAGE_COUNT 2
 
 
 void App_Display_Init(void);

@@ -11,7 +11,7 @@
 
 uint8_t bsp_button_start_get_state(void){
 	/* PC0 ?ang d�ng l�m input cho n�t nh?n */
-	if (((PINC & (1 << PC0)) == 0) || ((PINC & (1 << PC1)) == 0)) 
+	if (((PINC & (1 << PC0)) == 0) || ((PINC & (1 << PC1)) == 0))
 	{
 		/* ??c ???c m?c 0 ? n�t ?ang ???c nh?n */
 		return BUTTON_PRESSED;
@@ -41,7 +41,7 @@ void bsp_button_init(void)
 	CLEAR_BIT(DDRC, 0);
 	CLEAR_BIT(DDRC, 1);
 	
-	SET_BIT(PORTB, 1); //PB1 INPUT 
+	CLEAR_BIT(PORTB, 1); //PB1 INPUT 
 
 	/* Pull-up resistor enable */
 	SET_BIT(PORTC, 0);
