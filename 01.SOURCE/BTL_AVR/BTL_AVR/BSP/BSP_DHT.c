@@ -11,7 +11,7 @@
 
 
 /*
- * DHT DATA = OUTPUT, MCU ?i?u khi?n DATA
+ * DHT DATA = OUTPUT, MCU dieu khien DATA
  */
 static void DHT_SetOutput(void)
 {
@@ -20,11 +20,12 @@ static void DHT_SetOutput(void)
 
 
 /*
- * DHT DATA = INPUT, DHT11 g?i d? li?u v? cho MCU
+ * DHT DATA = INPUT, DHT11 gui du lieu ve cho MCU (giu pull-up)
  */
 static void DHT_SetInput(void)
 {
-    DHT_DDR &= ~(1 << DHT_DATA_PIN);
+    DHT_DDR  &= ~(1 << DHT_DATA_PIN);
+    DHT_PORT |=  (1 << DHT_DATA_PIN);
 }
 
 
@@ -47,7 +48,7 @@ static void DHT_WriteHigh(void)
 
 
 /*
- * Read DATA pin, check data dang low/high
+ * Doc muc hien tai cua chan DATA
  */
 static uint8_t DHT_ReadPin(void)
 {
@@ -56,21 +57,20 @@ static uint8_t DHT_ReadPin(void)
 
 
 /*
- * Ch? DATA ??t t?i m?c mong mu?n.
+ * Cho DATA dat toi muc mong muon.
  *
  * level:
- *      0 -> ch? LOW
- *      1 -> ch? HIGH
+ *      0 -> cho LOW
+ *      1 -> cho HIGH
  *
  * timeout:
- *      s? vòng l?p t?i ?a
+ *      so vong lap toi da (~1us moi vong)
  *
  * return:
- *      1 = thành công
+ *      1 = thanh cong
  *      0 = timeout
  */
-static uint8_t DHT_WaitForLevel(uint8_t level,
-                                uint16_t timeout)
+static uint8_t DHT_WaitForLevel(uint8_t level, uint16_t timeout)
 {
     while (DHT_ReadPin() != level)
     {
@@ -80,152 +80,99 @@ static uint8_t DHT_WaitForLevel(uint8_t level,
         }
 
         timeout--;
-
         _delay_us(1);
     }
 
     return 1;
 }
 
-//START SIGNAL
 
 /*
- * MCU g?i START signal cho DHT11.
+ * MCU gui START signal cho DHT11.
  *
  * Sequence:
- *
- * DATA LOW  >= 18 ms
- * DATA HIGH ~ 20-40 us
- * DATA INPUT
- *
- * return:
- *      1 = ?ã g?i START
+ *   DATA LOW   >= 18 ms
+ *   DATA HIGH  ~ 20-40 us
+ *   DATA INPUT (nha bus cho DHT11 keo)
  */
-static uint8_t DHT_SendStart(void)
+uint8_t DHT_SendStart(void)
 {
-    /* MCU ?i?u khi?n DATA */
     DHT_SetOutput();
 
-    /* START: kéo DATA LOW */
+    /* START LOW */
     DHT_WriteLow();
-
-    /* DHT11 yêu c?u LOW ít nh?t 18 ms */
     _delay_ms(20);
 
-    /* Nh? DATA lên HIGH */
+    /* Nha bus len HIGH, giu 30us theo datasheet */
     DHT_WriteHigh();
-
-    /* Gi? HIGH kho?ng 30 us */
     _delay_us(30);
 
-    /* Nh? bus cho DHT11 */
+    /* Nha bus cho DHT11 dieu khien */
     DHT_SetInput();
 
     return 1;
 }
 
-//CHECK DHT11 RESPONSE
-static uint8_t DHT_CheckResponse(void)
-{
-    uint16_t low_time = 0;
-    uint16_t high_time = 0;
 
-	//Ch? DHT11 kéo data low
+/*
+ * Kiem tra response cua DHT11: LOW ~80us -> HIGH ~80us -> LOW (bat dau bit dau tien)
+ *
+ * return:
+ *      4 = OK
+ *      1/2/3 = loi tai tung buoc
+ */
+uint8_t DHT_CheckResponse(void)
+{
+    /* DHT keo LOW ~80us */
+    if (!DHT_WaitForLevel(0, 200))
+    {
+        return 1;   /* E1: khong thay LOW */
+    }
+
+    /* DHT tha HIGH ~80us */
+    if (!DHT_WaitForLevel(1, 150))
+    {
+        return 2;   /* E2: khong thay HIGH */
+    }
+
+    /* DHT keo LOW de bat dau bit dau tien */
     if (!DHT_WaitForLevel(0, 150))
     {
-        return 0;
+        return 3;   /* E3: khong thay LOW ke tiep */
     }
 
-	//DHT11 response low = 80us
-
-    while (!DHT_ReadPin())
-    {
-        if (low_time >= 120)
-        {
-            return 0;
-        }
-
-        low_time++;
-
-        _delay_us(1);
-    }
-
-	//check response có l?i ko
-    if ((low_time < 50) || (low_time > 120))
-    {
-        return 0;
-    }
-
-	//DHT11 response high = 80us
-
-    while (DHT_ReadPin())
-    {
-        if (high_time >= 120)
-        {
-            return 0;
-        }
-
-        high_time++;
-
-        _delay_us(1);
-    }
-
-	//check response có l?i ko
-
-    if ((high_time < 50) || (high_time > 120))
-    {
-        return 0;
-    }
-
-	//Response h?p l?
-    return 1;
+    return 4;   /* OK */
 }
 
-//DHT11 response thành công, readbit
+
+/*
+ * Doc 1 bit: cho HIGH bat dau, sample sau 40us, roi cho LOW (= bat dau bit ke)
+ */
 static uint8_t DHT_ReadBit(uint8_t *bit)
 {
-    uint16_t time = 0;
+    /* Cho LOW ket thuc -> HIGH bat dau */
+    if (!DHT_WaitForLevel(1, 100))
+    {
+        return 0;
+    }
 
-	//Low start
+    _delay_us(40);
+
+    *bit = DHT_ReadPin() ? 1 : 0;
+
+    /* Cho HIGH ket thuc, dong thoi la LOW bat dau bit ke tiep */
     if (!DHT_WaitForLevel(0, 100))
     {
         return 0;
     }
 
-    if (!DHT_WaitForLevel(1, 150))
-    {
-        return 0;
-    }
-
-	//?o tgian high
-    while (DHT_ReadPin())
-    {
-        if (time >= 100)
-        {
-            return 0;
-        }
-
-        time++;
-
-        _delay_us(1);
-    }
-
-	/* bit 0 = 26-28us
-	bit 1 = 70us */
-	
-    if (time > 50)
-    {
-        *bit = 1;
-    }
-    else
-    {
-        *bit = 0;
-    }
-
     return 1;
 }
 
-//read 1 byte
+
+/*
+ * Doc 1 byte (8 bit, MSB truoc)
+ */
 static uint8_t DHT_ReadByte(uint8_t *data)
 {
     uint8_t i;
@@ -240,10 +187,7 @@ static uint8_t DHT_ReadByte(uint8_t *data)
             return 0;
         }
 
-		//dich bit ?ã ??c sang trái
         *data <<= 1;
-
-		//g?n bit ?ã ??c vào bit lowest
         *data |= bit;
     }
 
@@ -253,70 +197,59 @@ static uint8_t DHT_ReadByte(uint8_t *data)
 
 void BSP_DHT_Init(void)
 {
-	//DATA: input
-    DHT_SetInput();
-
-	//Tro keo len
-    DHT_PORT |= (1 << DHT_DATA_PIN);
+    /* DATA = input, bat pull-up noi */
+    DHT_DDR  &= ~(1 << DHT_DATA_PIN);
+    DHT_PORT |=  (1 << DHT_DATA_PIN);
 }
 
-//read function
-uint8_t BSP_DHT_Read(uint8_t *humidity,
-                     uint8_t *temperature)
+
+/*
+ * Doc humidity + temperature tu DHT11
+ *
+ * return:
+ *      0 = OK
+ *      1 = start fail
+ *      2 = response fail
+ *      3 = doc bit fail
+ *      4 = checksum sai
+ */
+uint8_t BSP_DHT_Read(uint8_t *humidity, uint8_t *temperature)
 {
     uint8_t data[5];
-
     uint8_t i;
-
     uint8_t checksum;
 
-	//send start
+    /* START */
     if (!DHT_SendStart())
     {
-        return 0;
+        return 1;
     }
 
-	//check response
-    if (!DHT_CheckResponse())
+    /* RESPONSE */
+    if (DHT_CheckResponse() != 4)
     {
-        return 0;
+        return 2;
     }
 
-
-    /* ??c 40 bit
-     * data[0] = humidity integer
-     * data[1] = humidity decimal
-     * data[2] = temperature integer
-     * data[3] = temperature decimal
-     * data[4] = checksum */
-
+    /* READ 40 BIT */
     for (i = 0; i < 5; i++)
     {
         if (!DHT_ReadByte(&data[i]))
         {
-            return 0;
+            return 3;
         }
     }
 
-	//check sum
-
-    checksum = data[0]
-             + data[1]
-             + data[2]
-             + data[3];
-
+    /* CHECKSUM */
+    checksum = data[0] + data[1] + data[2] + data[3];
 
     if (checksum != data[4])
     {
-        return 0;
+        return 4;
     }
 
-	//return data
-
-    *humidity = data[0];
-
+    *humidity    = data[0];
     *temperature = data[2];
 
-
-    return 1;
+    return 0;
 }

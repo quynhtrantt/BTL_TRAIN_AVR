@@ -1,7 +1,12 @@
 #ifndef APP_DISPLAY_H_
 #define APP_DISPLAY_H_
-
 #include "LCD.h"
+#include "app_button.h"
+#include ""
+
+#define PAGE_TEMPERATURE
+#define TEMPERATURE
+#define 
 
 
 void App_Display_Init(void)
