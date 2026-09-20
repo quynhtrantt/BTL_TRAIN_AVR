@@ -1,75 +1,135 @@
-CC=avr-gcc
-# compiler collection
+################################################################################
+# Makefile for BTL_AVR (ATmega324P)
+# Microcontroller: ATmega324P
+# Clock frequency: 8.000.000 Hz (8MHz)
+################################################################################
 
-MCU=-mmcu=atmega328p
-# micro-controller
+# Tên file đầu ra
+TARGET = BTL_AVR
 
-CPU_SPEED=-DF_CPU=16000000UL
-# clock speed
+# Cấu hình vi điều khiển và tần số thạch anh
+MCU   = atmega324p
+F_CPU = 8000000UL
 
-CFLAGS=-Wall -Os $(MCU) $(CPU_SPEED)
-# compiler flags
+# Thư mục chứa kết quả biên dịch
+BUILD_DIR = build
 
-CONVERTER=avr-objcopy
-# for elf to hex conversion
+# Đường dẫn Toolchain Atmel Studio 7 (mặc định nếu không có trong PATH)
+TOOLCHAIN_DIR ?= C:/Program Files (x86)/Atmel/Studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin
+PACK_DIR      ?= C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374
 
-SRC=main
-# main c source file
+# Kiểm tra avr-gcc trong PATH hay dùng đường dẫn mặc định
+CC      := "$(TOOLCHAIN_DIR)/avr-gcc.exe"
+OBJCOPY := "$(TOOLCHAIN_DIR)/avr-objcopy.exe"
+OBJDUMP := "$(TOOLCHAIN_DIR)/avr-objdump.exe"
+SIZE    := "$(TOOLCHAIN_DIR)/avr-size.exe"
 
-UPLOADER=avrdude -F -V -c
-# uploader
+# Các thư mục Include
+INCLUDES = \
+	-I. \
+	-IAPP \
+	-IAPP/APP_DISPLAY \
+	-IAPP/TEST_LCD_3 \
+	-IAPP_BUTTON \
+	-IBSP \
+	-ICOMMON \
+	-IDATA \
+	-IDRIVER \
+	-I"$(PACK_DIR)/include"
 
-BOARD=arduino
-# board
+# Danh sách các file mã nguồn C trong dự án
+SRCS = \
+	main.c \
+	APP/APP_DHT.c \
+	APP/APP_LCD_3.c \
+	APP/APP_DISPLAY/app_display.c \
+	APP/TEST_LCD_3/test_lcd_3.c \
+	APP_BUTTON/APP_BUTTON.c \
+	APP_BUTTON/DATA_BUTTON.c \
+	BSP/BSP_BUTTON.c \
+	BSP/BSP_DHT.c \
+	BSP/BSP_LCD.c \
+	BSP/BSP_LED.c \
+	BSP/BSP_TIMER.c \
+	DATA/DATA_DHT.c \
+	DRIVER/GPIO.c \
+	DRIVER/LCD.c
 
-PORT=/dev/ttyUSB0
-# port
+# Tạo danh sách các file object tương ứng đặt trong $(BUILD_DIR)
+OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(SRCS))
 
-BAUD_RATE=57600
-# baud rate for communication
+# Cờ biên dịch cho trình biên dịch C (GCC)
+CFLAGS = \
+	-mmcu=$(MCU) \
+	-B "$(PACK_DIR)/gcc/dev/$(MCU)" \
+	-DF_CPU=$(F_CPU) \
+	-DDEBUG \
+	-Og \
+	-g2 \
+	-Wall \
+	-std=gnu99 \
+	-funsigned-char \
+	-funsigned-bitfields \
+	-fpack-struct \
+	-fshort-enums \
+	-ffunction-sections \
+	-fdata-sections \
+	$(INCLUDES)
 
-all : compile program clean
-# rule for "make all" command
+# Cờ cho Linker
+LDFLAGS = \
+	-mmcu=$(MCU) \
+	-B "$(PACK_DIR)/gcc/dev/$(MCU)" \
+	-Wl,-Map="$(BUILD_DIR)/$(TARGET).map" \
+	-Wl,--gc-sections \
+	-lm
 
-compile : $(SRC).hex
-# compiler rule
+################################################################################
+# Các Target trong Makefile
+################################################################################
 
-$(SRC).hex : $(SRC).elf
-#rule for conversion of elf file to hex file
-	$(CONVERTER) -O ihex -R .eeprom $< $@
-# -O output file name
-# -R remove section
+.PHONY: all clean hex size help
 
-$(SRC).elf : $(SRC).s
-#rule for conversion of s file to elf file
-	$(CC) $(CFLAGS) -s -o $@ $<	
-# -s Remove all symbol table and relocation information from the executable
-# -o output file name
+all: $(BUILD_DIR)/$(TARGET).elf hex size
 
-$(SRC).s : $(SRC).c
-# rule for compilation of c file to s file
-	$(CC) $(CFLAGS) -S -o $@ $<	
-# -S Stop after the stage of compilation proper; do not assemble. 
-#    The output is in the form of an assembler code file for each non-assembler input file specified
-# -o output file name
+# Quy tắc liên kết tạo file .elf
+$(BUILD_DIR)/$(TARGET).elf: $(OBJS)
+	@echo [LD] Linking target: $@
+	@$(CC) $(LDFLAGS) -o $@ $^
 
-program : $(SRC).hex
-# rule to program micro-controller
-	$(UPLOADER) $(BOARD) -p ATmega328P -P $(PORT) -b $(BAUD_RATE) -U flash:w:$<
+# Quy tắc biên dịch từng file .c thành file .o
+$(BUILD_DIR)/%.o: %.c
+	@cmd /c if not exist "$(dir $@)" mkdir "$(dir $@)"
+	@echo [CC] Compiling: $<
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-# -F Normally, avrdude tries to verify that the device signature read from the part is reasonable before continuing.  Since
-# 	 it can happen from time to time that a device has a broken (erased or overwritten) device signature but is otherwise
-# 	 operating normally, this options is provided to override the check. 
-# -c programmer-id Use the programmer specified by the argument
-# -V Disable automatic verify check when uploading data
-# -p part
-# -P port
-# -b baud rate
-# -U memtype:op:filename:filefmt
+# Tạo file .hex, .eep, .lss từ file .elf
+hex: $(BUILD_DIR)/$(TARGET).elf
+	@echo [HEX] Generating Intel HEX: $(BUILD_DIR)/$(TARGET).hex
+	@$(OBJCOPY) -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "$<" "$(BUILD_DIR)/$(TARGET).hex"
+	@echo [EEP] Generating EEPROM: $(BUILD_DIR)/$(TARGET).eep
+	@$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0 --no-change-warnings -O ihex "$<" "$(BUILD_DIR)/$(TARGET).eep" || exit 0
+	@echo [LSS] Generating Assembly Listing: $(BUILD_DIR)/$(TARGET).lss
+	@$(OBJDUMP) -h -S "$<" > "$(BUILD_DIR)/$(TARGET).lss"
 
-.PHONY : clean
-clean :
-# rule to clean up s, elf and hex files
-	rm -f *.s
-	rm -f *.elf
-	rm -f *.hex
+# Hiển thị dung lượng bộ nhớ sử dụng
+size: $(BUILD_DIR)/$(TARGET).elf
+	@echo.
+	@echo --- Memory Usage Statistics ---
+	@$(SIZE) -C --mcu=$(MCU) "$<"
+	@echo.
+
+# Dọn dẹp thư mục build
+clean:
+	@echo Cleaning build artifacts...
+	@cmd /c if exist $(BUILD_DIR) rd /s /q $(BUILD_DIR)
+	@echo Clean finished.
+
+help:
+	@echo ========================================================
+	@echo Makefile targets:
+	@echo   make all   : Bien dich toan bo du an, tao .elf va .hex
+	@echo   make hex   : Tao file hex, eep va lss
+	@echo   make size  : Kiem tra dung luong Flash va RAM
+	@echo   make clean : Xoa sach thu muc build
+	@echo ========================================================

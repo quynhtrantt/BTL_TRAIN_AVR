@@ -7,25 +7,28 @@
 #include "bsp_button.h"
 #include "DATA_BUTTON.h"
 #include <avr/io.h>
+#include "common_macros.h"
 
 uint8_t bsp_button_start_get_state(void){
-	/* PC0 ?ang dùng làm input cho nút nh?n */
-	if ((PINC & (1 << PC7)) == 0)
+	/* PC0 ?ang dï¿½ng lï¿½m input cho nï¿½t nh?n */
+	if (((PINC & (1 << PC0)) == 0) || ((PINC & (1 << PC1)) == 0))
 	{
-		/* ??c ???c m?c 0 ? nút ?ang ???c nh?n */
+		/* ??c ???c m?c 0 ? nï¿½t ?ang ???c nh?n */
 		return BUTTON_PRESSED;
 	}
 	else
 	{
-		/* ??c ???c m?c 1 ? nút ?ang th? */
+		/* ??c ???c m?c 1 ? nï¿½t ?ang th? */
 		return BUTTON_RELEASED;
 	}
 }
 void bsp_button_init(void)
 {
-	/* PC0 là input */
-	DDRC &= ~(1 << PC7);
+	/* PC0, PC1 is input */
+	CLEAR_BIT(DDRC, 0);
+	CLEAR_BIT(DDRC, 1);
 
-	/* B?t ?i?n tr? kéo lên (pull-up) cho PC0 */
-	PORTC |= (1 << PC7);
+	/* Pull-up resistor enable */
+	SET_BIT(PORTC, 0);
+	SET_BIT(PORTC, 1);
 }

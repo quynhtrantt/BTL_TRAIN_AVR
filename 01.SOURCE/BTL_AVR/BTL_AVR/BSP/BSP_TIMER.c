@@ -1,29 +1,20 @@
 /*
  * BSP_TIMER.c
  *
-<<<<<<< HEAD
  * Created: 9/16/2026 4:03:34 PM
  *  Author: HP
  */ 
 
-#include "bsp_timer.h"
-=======
- * Created: 9/19/2026 2:17:22 PM
- *  Author: HP
- */ 
+
 #include "BOARD.h"
 #include "BSP_TIMER.h"
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 volatile uint32_t sys_time_count = 0u;
-extern uint16_t	app_button_timer_count;
-<<<<<<< HEAD
+extern volatile uint16_t	app_button_timer_count;
 #define F_CPU 8000000UL
-=======
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
 
 void BSP_Timer1_Init(void)
 {
@@ -63,14 +54,11 @@ void BSP_Timer1_Init(void)
 ISR(TIMER1_COMPA_vect)
 {
 	sys_time_count++;
-<<<<<<< HEAD
 	if (0 < app_button_timer_count) app_button_timer_count--;
-=======
 //	if (0 < app_button_timer_count) app_button_timer_count--;
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
 }
 
-/* Hàm ??c giá tr? ms m?t cách “atomic” (tránh ??c d? dang 32-bit) */
+/* Hï¿½m ??c giï¿½ tr? ms m?t cï¿½ch ï¿½atomicï¿½ (trï¿½nh ??c d? dang 32-bit) */
 uint32_t BSP_GetSysTimeMs(void)
 {
 	uint32_t t;
@@ -86,12 +74,10 @@ void BSP_DelayMs(uint32_t delayMs)
 {
 	uint32_t start = BSP_GetSysTimeMs();
 
-	/* Dùng phép tr? ?? ch?u ???c overflow 32-bit */
+	/* Dï¿½ng phï¿½p tr? ?? ch?u ???c overflow 32-bit */
 	while ((uint32_t)(BSP_GetSysTimeMs() - start) < delayMs) {
 		
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
+
+

@@ -1,11 +1,8 @@
 /*
  * BSP_TIMER.h
  *
-<<<<<<< HEAD
  * Created: 9/16/2026 4:03:46 PM
-=======
  * Created: 9/19/2026 2:17:33 PM
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
  *  Author: HP
  */ 
 
@@ -25,8 +22,5 @@ uint32_t BSP_GetSysTimeMs(void);
 /* Blocking delay in ms using Timer1/sys_time_count */
 void BSP_DelayMs(uint32_t delayMs);
 
-<<<<<<< HEAD
-=======
 
->>>>>>> a94cb0a5d1d26b2958ccbf33fd761a77f9d31793
 #endif /* BSP_TIMER_H_ */

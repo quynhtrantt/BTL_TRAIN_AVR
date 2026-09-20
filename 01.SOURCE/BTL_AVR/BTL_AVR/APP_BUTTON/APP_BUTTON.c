@@ -10,7 +10,7 @@ typedef enum {S_BUTTON_PRESSED, S_BUTTON_PRESSED_CHECK, S_BUTTON_RELEASED, S_BUT
 
 static button_state_t state = S_BUTTON_RELEASED;
 
-uint16_t	app_button_timer_count;
+volatile uint16_t	app_button_timer_count;
 
 void app_button_update()
 {

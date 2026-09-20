@@ -4,9 +4,10 @@
 #include "DATA_BUTTON.h"
 #include "BSP_TIMER.h"
 #include "BSP_LCD.h"
+#include "GPIO.h"
 
 uint8_t set_temp = 16;
-extern uint16_t	app_button_timer_count;
+extern volatile uint16_t	app_button_timer_count;
 typedef enum
 {
     STATE_IDLE,
@@ -15,7 +16,7 @@ typedef enum
 } temp_control_state_t;
 
 static uint8_t temp_state;
-
+static uint8_t active_btn;
 
 void app_LCD_3_update()
 {
@@ -23,6 +24,7 @@ void app_LCD_3_update()
     switch (temp_state)
     {
     case STATE_IDLE:
+        
         if(GPIO_readPin(2, 0) == BUTTON_PRESSED)
         {
             if(set_temp < 30)
@@ -33,8 +35,9 @@ void app_LCD_3_update()
             {
                 break;
             }
-            LCD_WriteBus4(set_temp);
-            app_button_timer_count = 1000;
+            temp_state = STATE_WAIT_HOLD;
+            active_btn = 0;
+            app_button_timer_count = 500;
         }
         else if(GPIO_readPin(2, 1) == BUTTON_PRESSED)
         {
@@ -46,50 +49,46 @@ void app_LCD_3_update()
             {
                 break;
             }
-            LCD_WriteBus4(set_temp);
-            app_button_timer_count = 1000;
+            temp_state = STATE_WAIT_HOLD;
+            active_btn = 1;
+            app_button_timer_count = 500;
         }
         else 
         {
-            LCD_WriteBus4(set_temp);
+            break;
         }
         break;
     case STATE_WAIT_HOLD:
-        if(GPIO_readPin(2, 0) == BUTTON_RELEASED || GPIO_readPin(2, 1) == BUTTON_RELEASED)
+        if(GPIO_readPin(2, active_btn) == BUTTON_RELEASED)
         {
             temp_state = STATE_IDLE;
             app_button_timer_count = 0; // timer oft
         }
-        else if(0 == app_button_timer_count) // timer expired
+        else if(app_button_timer_count == 0) // timer expired
         {
             temp_state = STATE_AUTO_REPEAT;
+            app_button_timer_count = 7;
         }
         break;
     case STATE_AUTO_REPEAT:
-        if(GPIO_readPin(2, 0) == BUTTON_PRESSED)
+        if(GPIO_readPin(2, active_btn) == BUTTON_RELEASED)
         {
-            app_button_timer_count = 100;
-            while( 0 == app_button_timer_count)
+           temp_state = STATE_IDLE;
+           app_button_timer_count = 0; //timer oft
+        }
+       
+        else if(app_button_timer_count == 0)
+        {   
+            app_button_timer_count = 7;
+            if (active_btn == 0 && set_temp < 30)
             {
                 set_temp++;
-                LCD_WriteBus4(set_temp);
-                
             }
-        }
-        else if(GPIO_readPin(2, 1) == BUTTON_PRESSED)
-        {
-            app_button_timer_count = 100;
-            while( 0 == app_button_timer_count)
+            else if(active_btn == 1 && set_temp > 16)
             {
                 set_temp--;
-                LCD_WriteBus4(set_temp);
-                
             }
-        }
-        else 
-        {
-            temp_state = STATE_IDLE;
-            app_button_timer_count = 0;
+            
         }
 
         break;
