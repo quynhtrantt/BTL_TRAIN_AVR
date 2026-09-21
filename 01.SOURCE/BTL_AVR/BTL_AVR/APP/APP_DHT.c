@@ -35,7 +35,7 @@ void app_dht_update(void)
 	{
 		last_read_time = current_time;
 
-		if (BSP_DHT_Read(&humidity, &temperature))
+		if (BSP_DHT_Read(&humidity, &temperature) == 0)
 		{
 			/* ??c DHT thành công */
 

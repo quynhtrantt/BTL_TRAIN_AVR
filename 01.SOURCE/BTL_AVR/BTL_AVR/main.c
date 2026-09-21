@@ -1,42 +1,44 @@
 #include "BOARD.h"
 #include "APP_DHT.h"
-#include "BSP_DHT.h"
+#include "DATA_DHT.h"
 #include "BSP_LCD.h"
+#include "BSP_TIMER.h"
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-
-#include <avr/io.h>
-#include <avr/interrupt.h>
 #include <stdint.h>
 
-#include "BSP_DHT.h"
-#include "BSP_LCD.h"
-#include "BSP_TIMER.h"
 
 int main(void)
 {
-	uint8_t humidity, temperature, err;
+	uint8_t humidity;
+	uint8_t temperature;
+	uint8_t status;
 
 	BSP_LCD_Init();
-	BSP_DHT_Init();
+	BSP_Timer1_Init();     /* c?p m?c th?i gian cho BSP_GetSysTimeMs() */
 
-	_delay_ms(1000);   /* DHT ?n ??nh sau c?p ngu?n */
+	app_dht_init();
+
+	sei();
 
 	LCD_GotoXY(0, 0);
-	LCD_PutString("DHT11 TEST");
+	LCD_PutString("DHT11 MONITOR");
 
 	while (1)
 	{
-		cli();
-		err = BSP_DHT_Read(&humidity, &temperature);
-		sei();
+		/* Layer APP t? quy?t ??nh khi nào c?n ??c l?i DHT (2s/l?n) */
+		app_dht_update();
+
+		/* Layer MAIN ch? l?y d? li?u ?ã l?u trong DATA ?? hi?n th? */
+		humidity    = data_dht_get_humidity();
+		temperature = data_dht_get_temperature();
+		status      = app_dht_get_read_status();
 
 		LCD_GotoXY(0, 1);
-		
-	//?? hi?n th? humidity vs temperature thì ch? c?n g?i tên 2 bi?n ra là ???c
-		if (err == 0)
+
+		if (status == 1)
 		{
 			LCD_PutString("H:");
 			LCD_PutChar(humidity / 10 + '0');
@@ -48,11 +50,7 @@ int main(void)
 		}
 		else
 		{
-			LCD_PutString("ERR:");
-			LCD_PutChar(err + '0');
-			LCD_PutString("      ");
+			LCD_PutString("DHT ERROR     ");
 		}
-
-		_delay_ms(2000);   /* DHT11 c?n >=1s gi?a 2 l?n ??c */
 	}
 }
