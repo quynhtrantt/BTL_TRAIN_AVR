@@ -32,7 +32,7 @@ int main(void)
 		
 		app_dht_update();
 		App_Display_SetTemperature(data_dht_get_temperature());
-		App_Display_SetHumidity(data_dht_get_humidity());
+		App_Display_SetHumidity(data_dht_get_humidity());	
 		
 		
 		app_button_update();

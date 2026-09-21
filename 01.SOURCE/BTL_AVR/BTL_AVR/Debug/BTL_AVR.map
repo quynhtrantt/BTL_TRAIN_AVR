@@ -76,7 +76,6 @@ Discarded input sections
  .bss           0x00000000        0x0 APP/APP_DHT.o
  .text.app_dht_get_read_status
                 0x00000000        0x6 APP/APP_DHT.o
- COMMON         0x00000000        0x0 APP/APP_DHT.o
  .text          0x00000000        0x0 APP/APP_DISPLAY/app_display.o
  .data          0x00000000        0x0 APP/APP_DISPLAY/app_display.o
  .bss           0x00000000        0x0 APP/APP_DISPLAY/app_display.o
@@ -829,37 +828,37 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x2406
+.debug_info     0x00000000     0x23dd
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x6cc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
  .debug_info    0x000006cc      0x1ce APP/APP_DISPLAY/test_display.o
  .debug_info    0x0000089a      0x156 APP/APP_LCD_3.o
  .debug_info    0x000009f0      0x1d9 APP_BUTTON/APP_BUTTON.o
  .debug_info    0x00000bc9       0xb7 BSP/BSP_BUTTON.o
- .debug_info    0x00000c80      0x1d0 APP/APP_DHT.o
- .debug_info    0x00000e50      0x400 APP/APP_DISPLAY/app_display.o
- .debug_info    0x00001250      0x4e1 BSP/BSP_DHT.o
- .debug_info    0x00001731      0x263 BSP/BSP_LCD.o
- .debug_info    0x00001994      0x177 BSP/BSP_TIMER.o
- .debug_info    0x00001b0b      0x11a DATA/DATA_DHT.o
- .debug_info    0x00001c25      0x22a DRIVER/GPIO.o
- .debug_info    0x00001e4f      0x5b7 DRIVER/LCD.o
+ .debug_info    0x00000c80      0x1a7 APP/APP_DHT.o
+ .debug_info    0x00000e27      0x400 APP/APP_DISPLAY/app_display.o
+ .debug_info    0x00001227      0x4e1 BSP/BSP_DHT.o
+ .debug_info    0x00001708      0x263 BSP/BSP_LCD.o
+ .debug_info    0x0000196b      0x177 BSP/BSP_TIMER.o
+ .debug_info    0x00001ae2      0x11a DATA/DATA_DHT.o
+ .debug_info    0x00001bfc      0x22a DRIVER/GPIO.o
+ .debug_info    0x00001e26      0x5b7 DRIVER/LCD.o
 
-.debug_abbrev   0x00000000     0x11ee
+.debug_abbrev   0x00000000     0x11d6
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x66e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
  .debug_abbrev  0x0000066e       0x86 APP/APP_DISPLAY/test_display.o
  .debug_abbrev  0x000006f4       0xd7 APP/APP_LCD_3.o
  .debug_abbrev  0x000007cb       0xf9 APP_BUTTON/APP_BUTTON.o
  .debug_abbrev  0x000008c4       0x6b BSP/BSP_BUTTON.o
- .debug_abbrev  0x0000092f       0xf3 APP/APP_DHT.o
- .debug_abbrev  0x00000a22      0x101 APP/APP_DISPLAY/app_display.o
- .debug_abbrev  0x00000b23      0x1fb BSP/BSP_DHT.o
- .debug_abbrev  0x00000d1e      0x144 BSP/BSP_LCD.o
- .debug_abbrev  0x00000e62      0x111 BSP/BSP_TIMER.o
- .debug_abbrev  0x00000f73       0x94 DATA/DATA_DHT.o
- .debug_abbrev  0x00001007       0xce DRIVER/GPIO.o
- .debug_abbrev  0x000010d5      0x119 DRIVER/LCD.o
+ .debug_abbrev  0x0000092f       0xdb APP/APP_DHT.o
+ .debug_abbrev  0x00000a0a      0x101 APP/APP_DISPLAY/app_display.o
+ .debug_abbrev  0x00000b0b      0x1fb BSP/BSP_DHT.o
+ .debug_abbrev  0x00000d06      0x144 BSP/BSP_LCD.o
+ .debug_abbrev  0x00000e4a      0x111 BSP/BSP_TIMER.o
+ .debug_abbrev  0x00000f5b       0x94 DATA/DATA_DHT.o
+ .debug_abbrev  0x00000fef       0xce DRIVER/GPIO.o
+ .debug_abbrev  0x000010bd      0x119 DRIVER/LCD.o
 
 .debug_line     0x00000000     0x186a
  *(.debug_line .debug_line.* .debug_line_end)
