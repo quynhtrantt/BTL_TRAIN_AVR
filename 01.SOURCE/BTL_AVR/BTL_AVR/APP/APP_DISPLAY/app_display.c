@@ -8,8 +8,8 @@
 
 
 static uint8_t current_page = PAGE_TEMPERATURE;
-static uint8_t temperature = TEMPERATURE;
-static uint8_t humidity = PAGE_HUMIDITY;
+extern uint8_t temperature;
+extern uint8_t humidity;
 static uint16_t press_count = PAGE_COUNT;
 extern uint8_t set_temp ;
 
@@ -26,7 +26,7 @@ void App_Display_ShowPage(uint8_t page)
 	current_page = page;
 
 	LCD_Clear();
-
+	
 	switch (current_page)
 	{
 		case PAGE_TEMPERATURE:
@@ -48,6 +48,7 @@ void App_Display_ShowPage(uint8_t page)
 		break;
 
 		case PAGE_COUNT:
+		
 		LCD_GotoXY(0U, 0U);
 		LCD_PutString("  SET TEMP ");
 

@@ -4,7 +4,7 @@
 # Clock frequency: 8.000.000 Hz (8MHz)
 ################################################################################
 
-# Tên file đầu ra
+# Tên file đầu ra mặc định (chương trình chính)
 TARGET = BTL_AVR
 
 # Cấu hình vi điều khiển và tần số thạch anh
@@ -37,7 +37,7 @@ INCLUDES = \
 	-IDRIVER \
 	-I"$(PACK_DIR)/include"
 
-# Danh sách các file mã nguồn C trong dự án
+# Danh sách các file mã nguồn C cho chương trình chính (main.c)
 SRCS = \
 	main.c \
 	APP/APP_DHT.c \
@@ -55,8 +55,26 @@ SRCS = \
 	DRIVER/GPIO.c \
 	DRIVER/LCD.c
 
-# Tạo danh sách các file object tương ứng đặt trong $(BUILD_DIR)
 OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(SRCS))
+
+# Danh sách các file mã nguồn C riêng cho test_display (dùng test_display.c thay cho main.c)
+TEST_DISPLAY_SRCS = \
+	APP/APP_DISPLAY/test_display.c \
+	APP/APP_DISPLAY/app_display.c \
+	APP/APP_DHT.c \
+	APP/APP_LCD_3.c \
+	APP_BUTTON/APP_BUTTON.c \
+	APP_BUTTON/DATA_BUTTON.c \
+	BSP/BSP_BUTTON.c \
+	BSP/BSP_DHT.c \
+	BSP/BSP_LCD.c \
+	BSP/BSP_LED.c \
+	BSP/BSP_TIMER.c \
+	DATA/DATA_DHT.c \
+	DRIVER/GPIO.c \
+	DRIVER/LCD.c
+
+TEST_DISPLAY_OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(TEST_DISPLAY_SRCS))
 
 # Cờ biên dịch cho trình biên dịch C (GCC)
 CFLAGS = \
@@ -80,7 +98,6 @@ CFLAGS = \
 LDFLAGS = \
 	-mmcu=$(MCU) \
 	-B "$(PACK_DIR)/gcc/dev/$(MCU)" \
-	-Wl,-Map="$(BUILD_DIR)/$(TARGET).map" \
 	-Wl,--gc-sections \
 	-lm
 
@@ -88,14 +105,14 @@ LDFLAGS = \
 # Các Target trong Makefile
 ################################################################################
 
-.PHONY: all clean hex size help
+.PHONY: all clean hex size help test_display
 
 all: $(BUILD_DIR)/$(TARGET).elf hex size
 
-# Quy tắc liên kết tạo file .elf
+# Quy tắc liên kết tạo file .elf cho BTL_AVR
 $(BUILD_DIR)/$(TARGET).elf: $(OBJS)
 	@echo [LD] Linking target: $@
-	@$(CC) $(LDFLAGS) -o $@ $^
+	@$(CC) $(LDFLAGS) -Wl,-Map="$(BUILD_DIR)/$(TARGET).map" -o $@ $^
 
 # Quy tắc biên dịch từng file .c thành file .o
 $(BUILD_DIR)/%.o: %.c
@@ -103,7 +120,7 @@ $(BUILD_DIR)/%.o: %.c
 	@echo [CC] Compiling: $<
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Tạo file .hex, .eep, .lss từ file .elf
+# Tạo file .hex, .eep, .lss từ file .elf của BTL_AVR
 hex: $(BUILD_DIR)/$(TARGET).elf
 	@echo [HEX] Generating Intel HEX: $(BUILD_DIR)/$(TARGET).hex
 	@$(OBJCOPY) -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "$<" "$(BUILD_DIR)/$(TARGET).hex"
@@ -112,24 +129,47 @@ hex: $(BUILD_DIR)/$(TARGET).elf
 	@echo [LSS] Generating Assembly Listing: $(BUILD_DIR)/$(TARGET).lss
 	@$(OBJDUMP) -h -S "$<" > "$(BUILD_DIR)/$(TARGET).lss"
 
-# Hiển thị dung lượng bộ nhớ sử dụng
+# Hiển thị dung lượng bộ nhớ sử dụng cho BTL_AVR
 size: $(BUILD_DIR)/$(TARGET).elf
 	@echo.
-	@echo --- Memory Usage Statistics ---
+	@echo --- Memory Usage Statistics (BTL_AVR) ---
 	@$(SIZE) -C --mcu=$(MCU) "$<"
 	@echo.
 
+################################################################################
+# Target riêng để build test_display.c ra test_display.hex
+################################################################################
+
+test_display: $(BUILD_DIR)/test_display.hex
+	@echo.
+	@echo --- Memory Usage Statistics (test_display) ---
+	@$(SIZE) -C --mcu=$(MCU) "$(BUILD_DIR)/test_display.elf"
+	@echo.
+	@echo [THANH CONG] File hex da duoc tao tai: $(BUILD_DIR)/test_display.hex
+	@echo.
+
+$(BUILD_DIR)/test_display.elf: $(TEST_DISPLAY_OBJS)
+	@echo [LD] Linking test_display target: $@
+	@$(CC) $(LDFLAGS) -Wl,-Map="$(BUILD_DIR)/test_display.map" -o $@ $^
+
+$(BUILD_DIR)/test_display.hex: $(BUILD_DIR)/test_display.elf
+	@echo [HEX] Generating Intel HEX: $@
+	@$(OBJCOPY) -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "$<" "$@"
+
+################################################################################
 # Dọn dẹp thư mục build
+################################################################################
+
 clean:
 	@echo Cleaning build artifacts...
 	@cmd /c if exist $(BUILD_DIR) rd /s /q $(BUILD_DIR)
 	@echo Clean finished.
 
 help:
-	@echo ========================================================
+	@echo ======================================================================
 	@echo Makefile targets:
-	@echo   make all   : Bien dich toan bo du an, tao .elf va .hex
-	@echo   make hex   : Tao file hex, eep va lss
-	@echo   make size  : Kiem tra dung luong Flash va RAM
-	@echo   make clean : Xoa sach thu muc build
-	@echo ========================================================
+	@echo   make all          : Bien dich chuong trinh chinh (main.c) ra BTL_AVR.hex
+	@echo   make test_display : Bien dich test_display.c ra test_display.hex
+	@echo   make size         : Kiem tra dung luong Flash va RAM
+	@echo   make clean        : Xoa sach thu muc build
+	@echo ======================================================================

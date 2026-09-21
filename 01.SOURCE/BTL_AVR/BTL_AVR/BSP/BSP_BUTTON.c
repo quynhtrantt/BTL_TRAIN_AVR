@@ -41,7 +41,7 @@ void bsp_button_init(void)
 	CLEAR_BIT(DDRC, 0);
 	CLEAR_BIT(DDRC, 1);
 	
-	CLEAR_BIT(PORTB, 1); //PB1 INPUT 
+	CLEAR_BIT(DDRB, 1); //PB1 INPUT 
 
 	/* Pull-up resistor enable */
 	SET_BIT(PORTC, 0);

@@ -9,7 +9,8 @@
 
 static uint32_t last_read_time = 0;
 static uint8_t read_status = 0;
-
+volatile uint8_t humidity;
+volatile uint8_t temperature;
 
 void app_dht_init(void)
 {

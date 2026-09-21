@@ -67,7 +67,7 @@ void app_LCD_3_update()
         else if(app_button_timer_count == 0) // timer expired
         {
             temp_state = STATE_AUTO_REPEAT;
-            app_button_timer_count = 7;
+            app_button_timer_count = 100;
         }
         break;
     case STATE_AUTO_REPEAT:
@@ -79,7 +79,7 @@ void app_LCD_3_update()
        
         else if(app_button_timer_count == 0)
         {   
-            app_button_timer_count = 7;
+            app_button_timer_count = 100;
             if (active_btn == 0 && set_temp < 30)
             {
                 set_temp++;
