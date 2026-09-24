@@ -11,7 +11,6 @@ static uint8_t current_page = PAGE_TEMPERATURE;
 static uint8_t update_index = UPDATE_TEMPERATURE;
 
 static uint8_t page_changed = 1U;
-
 static uint8_t last_temperature = 0U;
 static uint8_t last_humidity = 0U;
 static uint8_t last_set_temp = 0U;
@@ -28,7 +27,7 @@ void App_Display_Init(void)
 
 void App_Display_Task(void)
 {
-	/* Ki?m tra nút chuy?n page */
+
 	if (app_button_page_get_state() == BUTTON_PRESSED)
 	{
 		App_Display_NextPage();
@@ -54,7 +53,7 @@ void App_Display_NextPage(void)
 	page_changed = 1U;
 }
 
-static void App_Display_ShowPage(void)
+void App_Display_ShowPage(void)
 {
 	char buffer[17];
 
@@ -113,7 +112,7 @@ static void App_Display_ShowPage(void)
 	page_changed = 0U;
 }
 
-static void App_Display_UpdateData(void)
+void App_Display_UpdateData(void)
 {
 	char buffer[17];
 

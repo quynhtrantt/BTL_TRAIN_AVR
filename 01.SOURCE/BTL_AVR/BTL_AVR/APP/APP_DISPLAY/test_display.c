@@ -1,3 +1,7 @@
+#ifndef F_CPU
+#define F_CPU 8000000UL
+#endif
+
 #include "avr/io.h"
 #include "BSP_LCD.h"
 #include "app_display.h"
@@ -9,13 +13,11 @@
 #include "APP_LCD_3.h"
 #include "avr/interrupt.h"
 
-#ifndef F_CPU
-#define F_CPU 8000000UL
-#endif
 int main(void)
 {
 	BSP_Timer1_Init();
 	bsp_button_init();
+	
 	app_dht_init();
 	App_Display_Init();
 
@@ -25,16 +27,12 @@ int main(void)
 	{
 		app_button_update();
 		app_button_page_update();
-
-		if (app_button_page_get_state() == BUTTON_PRESSED)
-		{
-			App_Display_NextPage();
-		}
-
+		
 		app_dht_update();
 		app_LCD_3_update();
-
+		
 		App_Display_Task();
+		
 	}
 
 	return 0;
