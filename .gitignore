@@ -32,3 +32,8 @@ Release/
 *.bak
 *.log
 *.tmp
+Debug/
+*.hex
+*.elf
+*.o
+*.d

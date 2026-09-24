@@ -5,7 +5,7 @@
 #include "BSP_Timer.h"
 #include "BOARD.h"
 
-#define DHT_READ_INTERVAL_MS    2000UL
+#define DHT_READ_INTERVAL_MS    500UL
 
 static uint32_t last_read_time = 0;
 static uint8_t read_status = 0;
@@ -35,7 +35,7 @@ void app_dht_update(void)
 	{
 		last_read_time = current_time;
 
-		if (BSP_DHT_Read(&humidity, &temperature))
+		if (BSP_DHT_Read(&humidity, &temperature) == 0)
 		{
 			/* ??c DHT thành công */
 
