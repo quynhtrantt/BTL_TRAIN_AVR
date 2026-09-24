@@ -86,7 +86,7 @@ void app_button_page_update(void)
             if (BUTTON_PRESSED == bsp_button_page_get_state())
             {
                 page_state = S_PAGE_PRESSED_CHECK;
-                app_button_timer_count = 2000;
+                app_button_timer_count = 100;
             }
 
             break;
