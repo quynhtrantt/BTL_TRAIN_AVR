@@ -21,13 +21,11 @@ static void App_Display_UpdateData(void);
 void App_Display_Init(void)
 {
 	BSP_LCD_Init();
-
 	page_changed = 1U;
 }
 
 void App_Display_Task(void)
 {
-
 	if (app_button_page_get_state() == BUTTON_PRESSED)
 	{
 		App_Display_NextPage();
@@ -66,45 +64,33 @@ void App_Display_ShowPage(void)
 	switch (current_page)
 	{
 		case PAGE_TEMPERATURE:
-
 		LCD_GotoXY(0U, 0U);
 		LCD_PutString("  TEMPERATURE");
 
-		sprintf(buffer, "      %02u C",
-		data_dht_get_temperature());
-
+		sprintf(buffer, "      %02u C", data_dht_get_temperature());
 		LCD_GotoXY(0U, 1U);
 		LCD_PutString(buffer);
-
 		break;
 
 		case PAGE_HUMIDITY:
-
 		LCD_GotoXY(0U, 0U);
 		LCD_PutString("    HUMIDITY");
 
-		sprintf(buffer, "      %02u %%",
-		data_dht_get_humidity());
-
+		sprintf(buffer, "      %02u %%", data_dht_get_humidity());
 		LCD_GotoXY(0U, 1U);
 		LCD_PutString(buffer);
-
 		break;
 
 		case PAGE_COUNT:
-
 		LCD_GotoXY(0U, 0U);
 		LCD_PutString("    SET TEMP");
 
 		sprintf(buffer, "      %u", set_temp);
-
 		LCD_GotoXY(0U, 1U);
 		LCD_PutString(buffer);
-
 		break;
 
 		default:
-
 		current_page = PAGE_TEMPERATURE;
 		break;
 	}
@@ -122,7 +108,6 @@ void App_Display_UpdateData(void)
 	switch (update_index)
 	{
 		case UPDATE_TEMPERATURE:
-
 		temperature = data_dht_get_temperature();
 
 		if (temperature != last_temperature)
@@ -140,11 +125,9 @@ void App_Display_UpdateData(void)
 				LCD_PutString(buffer);
 			}
 		}
-
 		break;
 
 		case UPDATE_HUMIDITY:
-
 		humidity = data_dht_get_humidity();
 
 		if (humidity != last_humidity)
@@ -162,11 +145,9 @@ void App_Display_UpdateData(void)
 				LCD_PutString(buffer);
 			}
 		}
-
 		break;
 
 		case UPDATE_COUNT:
-
 		if (set_temp != last_set_temp)
 		{
 			last_set_temp = set_temp;
@@ -182,7 +163,6 @@ void App_Display_UpdateData(void)
 				LCD_PutString(buffer);
 			}
 		}
-
 		break;
 
 		default:

@@ -895,6 +895,7 @@ END GROUP
  .debug_frame   0x000004cc       0x74 DRIVER/GPIO.o
  .debug_frame   0x00000540      0x15c DRIVER/LCD.o
 
+<<<<<<< HEAD
 .debug_str      0x00000000      0xb37
  *(.debug_str)
  .debug_str     0x00000000      0x255 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
@@ -921,6 +922,34 @@ END GROUP
  .debug_str     0x000009ce       0xe9 DRIVER/GPIO.o
                                 0x278 (size before relaxing)
  .debug_str     0x00000ab7       0x80 DRIVER/LCD.o
+=======
+.debug_str      0x00000000      0xb81
+ *(.debug_str)
+ .debug_str     0x00000000      0x255 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega324p/avr5/crtatmega324p.o
+ .debug_str     0x00000255      0x1e7 APP/APP_DISPLAY/test_display.o
+                                0x21b (size before relaxing)
+ .debug_str     0x0000043c       0x8b APP/APP_LCD_3.o
+                                0x201 (size before relaxing)
+ .debug_str     0x000004c7      0x13a APP_BUTTON/APP_BUTTON.o
+                                0x301 (size before relaxing)
+ .debug_str     0x00000601       0x14 BSP/BSP_BUTTON.o
+                                0x1bd (size before relaxing)
+ .debug_str     0x00000615       0xa8 APP/APP_DHT.o
+                                0x249 (size before relaxing)
+ .debug_str     0x000006bd      0x123 APP/APP_DISPLAY/app_display.o
+                                0x2e6 (size before relaxing)
+ .debug_str     0x000007e0      0x10a BSP/BSP_DHT.o
+                                0x2b8 (size before relaxing)
+ .debug_str     0x000008ea       0xce BSP/BSP_LCD.o
+                                0x258 (size before relaxing)
+ .debug_str     0x000009b8       0x4d BSP/BSP_TIMER.o
+                                0x213 (size before relaxing)
+ .debug_str     0x00000a05       0x13 DATA/DATA_DHT.o
+                                0x1f0 (size before relaxing)
+ .debug_str     0x00000a18       0xe9 DRIVER/GPIO.o
+                                0x260 (size before relaxing)
+ .debug_str     0x00000b01       0x80 DRIVER/LCD.o
+>>>>>>> d19c5a7169eb6eef33db87d4cd214587a0fad4c4
                                 0x292 (size before relaxing)
 
 .debug_loc      0x00000000      0xfdb
