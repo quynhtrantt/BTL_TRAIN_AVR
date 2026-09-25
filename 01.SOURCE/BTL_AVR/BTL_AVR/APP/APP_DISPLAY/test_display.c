@@ -15,11 +15,18 @@
 
 int main(void)
 {
+
 	bsp_button_init();
 	
 	app_dht_init();
 	App_Display_Init();
+
 	BSP_Timer1_Init();
+	bsp_button_init();
+	
+	app_dht_init();
+	App_Display_Init();
+
 	sei();
 
 	while (1)
@@ -29,8 +36,12 @@ int main(void)
 		
 		app_dht_update();
 		app_LCD_3_update();
-		App_Display_Task();
+
 		
+		App_Display_Task();
+	
+		
+
 	}
 
 	return 0;

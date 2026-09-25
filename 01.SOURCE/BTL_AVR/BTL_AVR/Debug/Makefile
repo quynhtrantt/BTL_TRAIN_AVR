@@ -37,9 +37,6 @@ SUBDIRS :=  \
 ../APP/APP_DISPLAY/ \
 ../APP/TEST_LCD_3 \
 ../DATA/ \
-../Debug/ \
-../Debug/BSP/ \
-../Debug/DRIVER/ \
 ../DRIVER \
 ../BSP \
 ../APP \
