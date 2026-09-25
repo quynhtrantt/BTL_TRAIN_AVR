@@ -22,7 +22,11 @@ Release/
 *.atsuo
 *.user
 *.suo
-
+APP.c
+BTL_AVR.componentinfo.xml
+BTL_AVR.cproj
+main.c
+makefile
 # Virtual File System / Cache của Visual Studio core
 .vs/
 
