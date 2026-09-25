@@ -32,8 +32,7 @@ Release/
 *.bak
 *.log
 *.tmp
-Debug/
-*.hex
-*.elf
-*.o
-*.d
+
+# Hệ điều hành (đề phòng sinh file rác khi mở thư mục)
+.DS_Store
+Thumbs.db
