@@ -24,6 +24,7 @@ void App_Display_Init(void)
 	page_changed = 1U;
 }
 
+
 void App_Display_Task(void)
 {
 	if (app_button_page_get_state() == BUTTON_PRESSED)
@@ -38,6 +39,7 @@ void App_Display_Task(void)
 
 	App_Display_UpdateData();
 }
+
 
 void App_Display_NextPage(void)
 {
@@ -100,6 +102,7 @@ void App_Display_ShowPage(void)
 
 void App_Display_UpdateData(void)
 {
+
 	char buffer[17];
 
 	uint8_t temperature;

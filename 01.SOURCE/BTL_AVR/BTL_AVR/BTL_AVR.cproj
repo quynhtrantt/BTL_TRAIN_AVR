@@ -232,54 +232,10 @@
     <Folder Include="APP\APP_DISPLAY\" />
     <Folder Include="APP\TEST_LCD_3" />
     <Folder Include="DATA\" />
-    <Folder Include="Debug\" />
-    <Folder Include="Debug\BSP\" />
-    <Folder Include="Debug\DRIVER\" />
     <Folder Include="DRIVER" />
     <Folder Include="BSP" />
     <Folder Include="APP" />
     <Folder Include="APP_BUTTON" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BTL_AVR.componentinfo.xml">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BSP\BSP_LCD.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BSP\BSP_LCD.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BSP\BSP_LED.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\BSP\BSP_LED.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\DRIVER\GPIO.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\DRIVER\GPIO.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\DRIVER\LCD.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\DRIVER\LCD.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\main.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\main.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\makedep.mk">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="Debug\Makefile">
-      <SubType>compile</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

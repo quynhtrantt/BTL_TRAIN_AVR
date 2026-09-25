@@ -15,13 +15,12 @@
 
 int main(void)
 {
-<<<<<<< HEAD
-=======
+
 	bsp_button_init();
 	
 	app_dht_init();
 	App_Display_Init();
->>>>>>> d19c5a7169eb6eef33db87d4cd214587a0fad4c4
+
 	BSP_Timer1_Init();
 	bsp_button_init();
 	
@@ -37,14 +36,12 @@ int main(void)
 		
 		app_dht_update();
 		app_LCD_3_update();
-<<<<<<< HEAD
+
 		
 		App_Display_Task();
+	
 		
-=======
-		App_Display_Task();
-		
->>>>>>> d19c5a7169eb6eef33db87d4cd214587a0fad4c4
+
 	}
 
 	return 0;
